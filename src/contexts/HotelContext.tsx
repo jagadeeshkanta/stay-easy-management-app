@@ -50,6 +50,7 @@ interface HotelContextType {
   updateRoom: (id: string, room: Partial<Room>) => void;
   deleteRoom: (id: string) => void;
   createBooking: (booking: Omit<Booking, 'id' | 'createdAt'>) => void;
+  addBooking: (booking: any) => void;
   updateBooking: (id: string, booking: Partial<Booking>) => void;
   cancelBooking: (id: string) => void;
   addContactMessage: (message: Omit<ContactMessage, 'id' | 'createdAt' | 'status'>) => void;
@@ -175,6 +176,10 @@ export const HotelProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setBookings(prev => [...prev, newBooking]);
   };
 
+  const addBooking = (booking: any) => {
+    setBookings(prev => [...prev, booking]);
+  };
+
   const updateBooking = (id: string, bookingUpdate: Partial<Booking>) => {
     setBookings(prev => prev.map(booking => booking.id === id ? { ...booking, ...bookingUpdate } : booking));
   };
@@ -251,6 +256,7 @@ export const HotelProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       updateRoom,
       deleteRoom,
       createBooking,
+      addBooking,
       updateBooking,
       cancelBooking,
       addContactMessage,

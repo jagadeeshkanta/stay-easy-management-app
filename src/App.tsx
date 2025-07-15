@@ -8,6 +8,8 @@ import { HotelProvider } from "@/contexts/HotelContext";
 import { Navbar } from "@/components/ui/navbar";
 import { Home } from "./pages/Home";
 import { Auth } from "./pages/Auth";
+import { Rooms } from "./pages/Rooms";
+import { Contact } from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +27,8 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/rooms" element={<Rooms />} />
+                <Route path="/contact" element={<Contact />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
