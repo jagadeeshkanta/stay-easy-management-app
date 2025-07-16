@@ -128,19 +128,19 @@ export const Rooms = () => {
 
     const booking = {
       id: Math.random().toString(36).substr(2, 9),
+      customerId: user.id,
+      customerName: bookingData.guestName,
+      customerEmail: bookingData.email,
       roomId: bookingData.roomId,
-      roomTitle: room.title,
-      guestName: bookingData.guestName,
-      email: bookingData.email,
-      phone: bookingData.phone,
+      roomName: room.title,
       checkIn: bookingData.checkIn,
       checkOut: bookingData.checkOut,
       guests: parseInt(bookingData.guests),
+      totalAmount: room.price,
+      status: 'confirmed' as const,
+      paymentStatus: 'paid' as const,
       specialRequests: bookingData.specialRequests,
-      totalPrice: room.price,
-      status: 'confirmed',
-      bookingDate: new Date().toISOString().split('T')[0],
-      userId: user.id
+      createdAt: new Date().toISOString()
     };
 
     addBooking(booking);
