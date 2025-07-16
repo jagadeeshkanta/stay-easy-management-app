@@ -1,6 +1,10 @@
 # StayEasy - Hotel Management System
 
-Live Demo: [StayEasy App](https://stay-easy-management-app.vercel.app/auth)
+## 🔗 Live Demo
+
+- 🌐 Full App: [StayEasy - Hotel Management System](https://stay-easy-management-app.vercel.app/)
+- 🔐 Authentication Page: [Login/Register](https://stay-easy-management-app.vercel.app/auth)
+
 
 ## 🏨 Project Overview
 
