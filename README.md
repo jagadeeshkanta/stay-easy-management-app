@@ -1,73 +1,54 @@
-# Welcome to your Lovable project
+# StayEasy - Hotel Management System
 
-## Project info
+Live Demo: [StayEasy App](https://stay-easy-management-app.vercel.app/)
 
-**URL**: https://lovable.dev/projects/77a916df-5dfe-4186-b59d-97cfc1eb76cf
+## 🏨 Project Overview
 
-## How can I edit this code?
+**StayEasy** is a full-stack Hotel Management System designed to streamline the booking and management processes for hotel staff and customers. The platform supports user registration, room booking, admin management, and more, offering a seamless and responsive experience across devices.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🚀 Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/77a916df-5dfe-4186-b59d-97cfc1eb76cf) and start prompting.
+**Frontend:**
+- React.js
+- HTML5, CSS3
+- JavaScript
 
-Changes made via Lovable will be committed automatically to this repo.
+**Backend:**
+- Java
+- Spring Boot
+- Hibernate
 
-**Use your preferred IDE**
+**Database:**
+- MySQL
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+**Hosting:**
+- Vercel (Frontend)
+- Render/Heroku/AWS (Backend) *(adjust based on what you used)*
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## ✨ Features
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- 🔐 User authentication & authorization
+- 📅 Room booking with date selection
+- 👤 Admin dashboard for room & booking management
+- 📊 Booking history & room status
+- 📱 Fully responsive design
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 📸 Screenshots
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 🛠️ How to Run Locally
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 1. Clone the repository
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/77a916df-5dfe-4186-b59d-97cfc1eb76cf) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+```bash
+git clone https://github.com/your-username/hotel-management-system.git
+cd hotel-management-system
