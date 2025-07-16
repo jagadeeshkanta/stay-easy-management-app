@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, MapPin, Phone, Mail, CheckCircle, XCircle } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
+import { Calendar, Clock, MapPin, Phone, Mail, CheckCircle, XCircle, Edit, Trash2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useHotel } from '@/contexts/HotelContext';
 
 export const CustomerDashboard = () => {
   const { user } = useAuth();
-  const { bookings } = useHotel();
+  const { bookings, updateBooking, cancelBooking } = useHotel();
+  const { toast } = useToast();
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
+  const [modifyData, setModifyData] = useState({
+    checkIn: '',
+    checkOut: '',
+    guests: '',
+    specialRequests: ''
+  });
 
   const userBookings = bookings.filter(booking => booking.customerId === user?.id);
   const upcomingBookings = userBookings.filter(booking => 
@@ -25,6 +39,46 @@ export const CustomerDashboard = () => {
       case 'checked-out': return 'bg-gray-500/10 text-gray-700 border-gray-200';
       case 'cancelled': return 'bg-red-500/10 text-red-700 border-red-200';
       default: return 'bg-gray-500/10 text-gray-700 border-gray-200';
+    }
+  };
+
+  const handleModifyBooking = (booking: any) => {
+    setSelectedBooking(booking);
+    setModifyData({
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      guests: booking.guests.toString(),
+      specialRequests: booking.specialRequests || ''
+    });
+  };
+
+  const handleModifySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedBooking) return;
+
+    updateBooking(selectedBooking.id, {
+      checkIn: modifyData.checkIn,
+      checkOut: modifyData.checkOut,
+      guests: parseInt(modifyData.guests),
+      specialRequests: modifyData.specialRequests
+    });
+
+    toast({
+      title: "Booking Updated",
+      description: "Your booking has been successfully modified.",
+    });
+
+    setSelectedBooking(null);
+  };
+
+  const handleCancelBooking = (bookingId: string, roomName: string) => {
+    if (confirm(`Are you sure you want to cancel your booking for ${roomName}? This action cannot be undone.`)) {
+      cancelBooking(bookingId);
+      
+      toast({
+        title: "Booking Cancelled",
+        description: "Your booking has been cancelled and a refund will be processed.",
+      });
     }
   };
 
@@ -121,8 +175,102 @@ export const CustomerDashboard = () => {
                       </div>
                     )}
                     <div className="flex flex-col sm:flex-row gap-2">
-                      <Button variant="outline" className="flex-1">Modify Booking</Button>
-                      <Button variant="destructive" className="flex-1">Cancel Booking</Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button 
+                            variant="outline" 
+                            className="flex-1"
+                            onClick={() => handleModifyBooking(booking)}
+                          >
+                            <Edit className="h-4 w-4 mr-2" />
+                            Modify Booking
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[500px]">
+                          <DialogHeader>
+                            <DialogTitle>Modify Booking</DialogTitle>
+                            <DialogDescription>
+                              Update your booking details for {booking.roomName}
+                            </DialogDescription>
+                          </DialogHeader>
+                          
+                          <form onSubmit={handleModifySubmit} className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <Label htmlFor="modifyCheckIn">Check-in Date</Label>
+                                <Input
+                                  id="modifyCheckIn"
+                                  type="date"
+                                  value={modifyData.checkIn}
+                                  onChange={(e) => setModifyData(prev => ({ ...prev, checkIn: e.target.value }))}
+                                  min={new Date().toISOString().split('T')[0]}
+                                  required
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor="modifyCheckOut">Check-out Date</Label>
+                                <Input
+                                  id="modifyCheckOut"
+                                  type="date"
+                                  value={modifyData.checkOut}
+                                  onChange={(e) => setModifyData(prev => ({ ...prev, checkOut: e.target.value }))}
+                                  min={modifyData.checkIn || new Date().toISOString().split('T')[0]}
+                                  required
+                                />
+                              </div>
+                            </div>
+                            
+                            <div>
+                              <Label htmlFor="modifyGuests">Number of Guests</Label>
+                              <Select 
+                                value={modifyData.guests} 
+                                onValueChange={(value) => setModifyData(prev => ({ ...prev, guests: value }))}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {Array.from({ length: 6 }, (_, i) => (
+                                    <SelectItem key={i + 1} value={(i + 1).toString()}>
+                                      {i + 1} Guest{i + 1 > 1 ? 's' : ''}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            
+                            <div>
+                              <Label htmlFor="modifySpecialRequests">Special Requests</Label>
+                              <Textarea
+                                id="modifySpecialRequests"
+                                value={modifyData.specialRequests}
+                                onChange={(e) => setModifyData(prev => ({ ...prev, specialRequests: e.target.value }))}
+                                placeholder="Any special requests or requirements..."
+                              />
+                            </div>
+                            
+                            <div className="bg-muted p-4 rounded-lg">
+                              <div className="flex justify-between items-center text-lg font-semibold">
+                                <span>Total per night:</span>
+                                <span className="text-primary">${booking.totalAmount}</span>
+                              </div>
+                            </div>
+                            
+                            <Button type="submit" className="w-full bg-gradient-hero hover:shadow-luxury">
+                              Update Booking
+                            </Button>
+                          </form>
+                        </DialogContent>
+                      </Dialog>
+                      
+                      <Button 
+                        variant="destructive" 
+                        className="flex-1"
+                        onClick={() => handleCancelBooking(booking.id, booking.roomName)}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Cancel Booking
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
