@@ -25,11 +25,12 @@ export const CustomerDashboard = () => {
   });
 
   const userBookings = bookings.filter(booking => booking.customerId === user?.id);
+  const activeBookings = userBookings.filter(booking => booking.status !== 'cancelled');
   const upcomingBookings = userBookings.filter(booking => 
     new Date(booking.checkIn) > new Date() && booking.status !== 'cancelled'
   );
   const pastBookings = userBookings.filter(booking => 
-    new Date(booking.checkOut) < new Date()
+    new Date(booking.checkOut) < new Date() && booking.status !== 'cancelled'
   );
 
   const getStatusColor = (status: string) => {
@@ -99,8 +100,8 @@ export const CustomerDashboard = () => {
               <Calendar className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userBookings.length}</div>
-              <p className="text-xs text-muted-foreground">All time reservations</p>
+              <div className="text-2xl font-bold">{activeBookings.length}</div>
+              <p className="text-xs text-muted-foreground">Active reservations</p>
             </CardContent>
           </Card>
 
