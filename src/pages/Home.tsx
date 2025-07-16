@@ -83,7 +83,8 @@ export const Home = () => {
         <img 
           src={hotelLobby} 
           alt="Hotel Lobby" 
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover cursor-pointer"
+          onClick={() => window.location.href = '/rooms'}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/40" />
         
@@ -156,7 +157,8 @@ export const Home = () => {
                   <img 
                     src={room.image} 
                     alt={room.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+                    onClick={() => window.location.href = '/rooms'}
                   />
                   <div className="absolute top-4 right-4">
                     <Badge className="bg-accent text-accent-foreground">
